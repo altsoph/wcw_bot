@@ -190,9 +190,6 @@ sources:
       browser_url: https://www.mosturflot.ru/ships/shipsonline
 
 targets:
-  tg_alt_debug:
-    id: "@altsoph"
-    template: "Detected: %TAGS% at [%title%](%browser_url%)"
   tg_webcamwatcher:
     id: "@WebCamWatcher"
     template: "Detected: %TAGS% at [%title%](%browser_url%)"
