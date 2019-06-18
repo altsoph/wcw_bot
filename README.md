@@ -8,6 +8,8 @@ Currently, WCW bot
   * tracks some cameras on russian rivers banks and sends photos of boats to another [telegram channel](https://t.me/s/wcw_boats),
   * tracks a camera on a river ship, Obrazcov, and sends photos of random encounters to the [third telegram channel](https://t.me/s/WCW_Caryatid).
 
+![Demo pics](https://github.com/altsoph/wcw_bot/blob/master/shots.png)
+
 Some more details on the origins of this project are available in [my medium post](https://medium.com/altsoph/webcamwatcher-ff3c80e77b95).
 
 In this repo one can find the current pack of scripts which supports all the logic behind these processes.
