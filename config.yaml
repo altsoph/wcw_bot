@@ -29,6 +29,12 @@ general:
     cat: [50,125,100]
 
 sources:
+  dbg_source:
+    id: dbg_source
+    cache_time: -1
+    substitutions:
+      title: dbg source
+      browser_url: not_available
   wildpark_Baerencam:
     id: wildpark_Baerencam
     url: http://77.47.7.50:8789/record/current.jpg
