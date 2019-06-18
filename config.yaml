@@ -1,0 +1,404 @@
+general:
+  iteration_time: 600
+  cache_time: 600
+  check_period: 600
+  modules_dir:
+    downloader: ./mod_downloaders/
+    detector: ./mod_detectors/
+    filter: ./mod_filters/
+    annotator: ./mod_annotators/
+    enhancer: ./mod_enhancers/
+    sender: ./mod_senders/
+  filtering:
+    ignore_tags: ['person','car','bed', 'bench', 'tv', 'umbrella', 'sink', 'frisbee', 'broccoli', 'cake']
+    min_confidence: .55
+    nms_threshold: .4
+  annotation:
+    template: "Detected: %TAGS% at %title%, check out %browser_url%"
+  sender:
+    retries_num: 5
+    retries_pause: 30
+  class_colors:
+    giraffe: [255,0,0]
+    bird: [0,0,255]
+    dog: [0,255,0]
+    zebra: [106,109,90]
+    horse: [150,0,50]
+    bear: [250,100,50]
+    elephant: [160,200,70]
+    cat: [50,125,100]
+
+sources:
+  wildpark_Baerencam:
+    id: wildpark_Baerencam
+    url: http://77.47.7.50:8789/record/current.jpg
+    substitutions:
+      title: "Bärencam: Blick auf den Bärenberg"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+    min_confidence: .8
+  wildpark_Baerencam2:
+    id: wildpark_Baerencam2
+    url: http://77.47.7.50:8788/record/current.jpg
+    substitutions:
+      title: "Bärencam: Blick auf den Bärensee"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+    add_ignore_tags:
+      - train
+  wildpark_Baerencam3:
+    id: wildpark_Baerencam3
+    url: http://77.47.7.50:8790/record/current.jpg
+    substitutions:
+      title: "Bärencam: Bärenbox von Fred and Frode"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+  wildpark_Wildkatzencam:
+    id: wildpark_Wildkatzencam
+    url: http://77.47.7.50:8791/record/current.jpg
+    substitutions:
+      title: "Wildkatzencam: Futterplatz der Wildkatzen"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+    min_confidence: .8
+  wildpark_Luchscam:
+    id: wildpark_Luchscam
+    url: http://77.47.7.50:8792/record/current.jpg
+    add_ignore_tags:
+      - microwave
+    substitutions:
+      title: "Luchscam: Wo schlafen die Luchse?"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+  wildpark_Luchscam2:
+    id: wildpark_Luchscam2
+    url: http://77.47.7.50:8797/record/current.jpg
+    substitutions:
+      title: "Luchscam: Futterplatz"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+    min_confidence: .8
+  wildpark_Wolfscam:
+    id: wildpark_Wolfscam
+    url: http://77.47.7.50:8793/record/current.jpg
+    substitutions:
+      title: "Wolfscam: Fichtenschonung im Wolfsareal"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+  wildpark_Wolfscam2:
+    id: wildpark_Wolfscam2
+    url: http://77.47.7.50:8794/record/current.jpg
+    substitutions:
+      title: "Wolfscam: Wolfspfad"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+  wildpark_Wolfscam3:
+    id: wildpark_Wolfscam3
+    url: http://77.47.7.50:8798/record/current.jpg
+    substitutions:
+      title: "Wolfscam: Futterplatz"
+      browser_url: https://www.wildpark-mv.de/besuch-und-service/webcams.html
+
+  africam_Naledi:
+    id: africam_Naledi
+    url: https://s3-us-west-2.amazonaws.com/africamdrupalfiles/cameras/na/na.jpg
+    substitutions:
+      title: Naledi Game Lodge
+      browser_url: http://www.africam.com/wildlife/naledi_live_channel
+    min_confidence: .7
+  africam_Naledi2:
+    id: africam_Naledi2
+    url: https://s3-us-west-2.amazonaws.com/africamdrupalfiles/cameras/ce/ce.jpg
+    substitutions:
+      title: Cat-EYE, Naledi
+      browser_url: http://www.africam.com/wildlife/naledi_cat_eye_live_wildlife_channel
+    min_confidence: .8
+    add_ignore_tags:
+      - truck
+  africam_Nkorho:
+    id: africam_Nkorho
+    url: https://s3-us-west-2.amazonaws.com/africamdrupalfiles/cameras/nk/nk.jpg
+    substitutions:
+      title: Nkorho
+      browser_url: http://www.africam.com/wildlife/nkorho_pan_webcam
+  africam_Olifants:
+    id: africam_Olifants
+    url: https://s3-us-west-2.amazonaws.com/africamdrupalfiles/cameras/rc/rc.jpg
+    substitutions:
+      title: Olifants River, Naledi
+      browser_url: http://www.africam.com/wildlife/olifants_river_live_channel
+
+  bb_tomsk_19:
+    id: bb_tomsk_19
+    url: http://cdn08.vtomske.ru/stream/19.jpg
+    cache_time: 1800
+    substitutions:
+      title: "Томск. Трансляция реки Томь — ул. Вершинина, 47"
+      browser_url: https://pogoda.vtomske.ru/tomsk/webcams
+  bb_tomsk_23:
+    id: bb_tomsk_23
+    url: http://cdn08.vtomske.ru/stream/23.jpg
+    cache_time: 1800
+    substitutions:
+      title: "Томск. Трансляция реки Томь — Речной вокзал"
+      browser_url: https://pogoda.vtomske.ru/tomsk/webcams
+  bb_knobi:
+    id: bb_knobi
+    url: http://api.ipeye.ru/v1/stream/poster/1/e5188b3a9f5542c08ffd0455156f6c88/pre.jpg
+    cache_time: 1800
+    substitutions:
+      title: "Камень на Оби"
+      browser_url: https://izvestiy-kamen.ru/vebkamera/
+    add_ignore_tags:
+      - chair
+  bb_rnd_1:
+    id: bb_rnd_1
+    url: https://msk.rtsp.me/image/0WKoFCvy.jpg
+    cache_time: 1800
+    substitutions:
+      title: "Ростов на Дону. Левый берег Дона"
+      browser_url: http://www.rostovwebcam.ru
+    add_ignore_tags:
+      - traffic light
+  bb_rnd_2:
+    id: bb_rnd_2
+    url: https://msk.rtsp.me/image/9sjrd2pu.jpg
+    cache_time: 1800
+    substitutions:
+      title: "Ростов на Дону. Река Дон"
+      browser_url: http://www.rostovwebcam.ru
+  bb_ryb_1:
+    id: bb_ryb_1
+    url: http://cctv.atel.me/site/screenshot.html?guid=58ff1a65a7d264fc7429
+    cache_time: 1800
+    substitutions:
+      title: "Рыбинск. Памятник Ошанину, причал"
+      browser_url: http://cctv.atel.me/istoricheskie-mesta.php
+  bb_ryb_2:
+    id: bb_ryb_2
+    url: http://cctv.atel.me/site/screenshot.html?guid=b199d550d43b62c737be
+    cache_time: 1800
+    substitutions:
+      title: "Рыбинск. Волжский мост"
+      browser_url: http://cctv.atel.me/istoricheskie-mesta.php
+  bb_ryb_3:
+    id: bb_ryb_3
+    url: http://cctv.atel.me/site/screenshot.html?guid=6b988117b27549c0cc73
+    cache_time: 1800
+    substitutions:
+      title: "Рыбинск. Набережная Космонавтов, cудоходные шлюзы"
+      browser_url: http://cctv.atel.me/istoricheskie-mesta.php
+
+  boathead_obrazcov:
+    id: boathead_obrazcov
+    url: ftp://91.221.70.156/MTF/Obrazcov/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Сергей Образцов"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+
+targets:
+  tg_alt_debug:
+    id: "@altsoph"
+    template: "Detected: %TAGS% at [%title%](%browser_url%)"
+  tg_webcamwatcher:
+    id: "@WebCamWatcher"
+    template: "Detected: %TAGS% at [%title%](%browser_url%)"
+  tg_wcw_boats:
+    id: "@wcw_boats"
+    template: "Detected: %TAGS% at [%title%](%browser_url%)"
+  tg_wcw_caryatid:
+    id: "@WCW_Caryatid"
+    template: "Detected: %TAGS% at [%title%](%browser_url%)"
+  dbg_folder:
+    path: "dbg_detected"
+    suffix: "_marked"
+
+chains:
+  webcamwatcher:
+    sources:
+      # - 
+      #   module: mod_fakedownloader
+      #   source: africam_Naledi
+      #   parameters: {}
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Baerencam2
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Baerencam3
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Wildkatzencam
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Luchscam
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Luchscam2
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Wolfscam
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Wolfscam2
+      - 
+        module: mod_simpledownloader
+        source: wildpark_Wolfscam3
+      - 
+        module: mod_simpledownloader
+        source: africam_Naledi
+      - 
+        module: mod_simpledownloader
+        source: africam_Naledi2
+      - 
+        module: mod_simpledownloader
+        source: africam_Nkorho
+      - 
+        module: mod_simpledownloader
+        source: africam_Olifants
+
+    detector: mod_yolo3detector
+    filters:
+      -
+        module: mod_conffilter
+      -
+        module: mod_tagfilter
+        # parameters: {}
+      - 
+        module: mod_manualfilter
+        parameters:
+          suppress_list:
+            - ['africam_Naledi',[0,80,700,410],['some','bear']]
+      -
+        module: mod_repeatfilter
+        parameters:
+          storage: wildlife
+          suppress_period: 1800
+    enhancers:
+      -
+        module: mod_boxerenhancer
+    senders:
+      - 
+        sender_module: mod_tgsender
+        annotator_module: mod_templateannotator
+        target: tg_webcamwatcher
+        parameters: {}
+      - 
+        sender_module: mod_saversender
+        annotator_module: mod_templateannotator
+        target: dbg_folder
+  boatbot:
+    sources:
+      - 
+        module: mod_simpledownloader
+        source: bb_tomsk_19
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_tomsk_23
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_knobi
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_rnd_1
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_rnd_2
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_ryb_1
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_ryb_2
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: bb_ryb_3
+        parameters:
+          check_period: 1800
+    detector: mod_yolo3detector
+    filters:
+      -
+        module: mod_conffilter
+      -
+        module: mod_tagfilter
+      - 
+        module: mod_manualfilter
+        parameters:
+          suppress_list:
+            - ['bb_tomsk_23',[0,500,1800,1200],['some','boat', 'airplane']] # bb_tomsk_23
+            # - ['bb_tomsk_23',[750,550,1600,750],['some','boat']]
+            # - ['bb_tomsk_23',[0,600,1400,850],['some','boat']]
+            - ['bb_knobi',[210, 60, 385, 170],['boat','truck']]
+            - ['bb_knobi',[0, 123, 600, 340],['boat','truck']]
+            - ['bb_tomsk_19',[0, 570, 2000, 1100],['some','train']]
+            - ['bb_ryb_1',[0, 123, 600, 340],['boat','truck']] # bb_ryb_1
+            - ['bb_rnd_2',[-10,340,800,500],['boat','some']] # bb_rnd_2
+      -
+        module: mod_repeatfilter
+        parameters:
+          storage: boatbot
+          suppress_period: 3600
+
+    enhancers:
+      -
+        module: mod_boxerenhancer
+    senders:
+      - 
+        sender_module: mod_tgsender
+        annotator_module: mod_templateannotator
+        target: tg_wcw_boats
+      - 
+        sender_module: mod_saversender
+        annotator_module: mod_templateannotator
+        target: dbg_folder
+
+  boathead:
+    sources:
+      - 
+        module: mod_simpledownloader
+        source: boathead_obrazcov
+        parameters:
+          check_period: 300
+    detector: mod_yolo3detector
+    filters:
+      -
+        module: mod_conffilter
+      - 
+        module: mod_sizefilter
+        parameters:
+          suppress_list:
+            - ['boathead_obrazcov',[680000,-1],['some','boat','airplane']] # boathead_obrazcov
+      -
+        module: mod_tagfilter
+        # parameters: {}
+      - 
+        module: mod_manualfilter
+        parameters:
+          suppress_list:
+            - ['boathead_obrazcov',[55,690,1850,1100],['some','boat','chair']]
+      -
+        module: mod_repeatfilter
+        parameters:
+          storage: boathead
+          suppress_period: 300
+    enhancers:
+      -
+        module: mod_boxerenhancer
+    senders:
+      - 
+        sender_module: mod_tgsender
+        annotator_module: mod_templateannotator
+        target: tg_wcw_caryatid
+        parameters: {}
+      - 
+        sender_module: mod_saversender
+        annotator_module: mod_templateannotator
+        target: dbg_folder
+        
