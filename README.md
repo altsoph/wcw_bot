@@ -22,6 +22,7 @@ To run WCW bot one needs **python3** with several additional libraries:
   * cv2 ([opencv-python](https://pypi.org/project/opencv-python/))
   * telegram.ext ([python-telegram-bot](https://pypi.org/project/python-telegram-bot/))
   * [yaml](https://pyyaml.org/)
+  
 *Note, the list of requirements depends on used modules, so it could be shorter or longer in a concrete case.*
 
 Finally, to run it one will need a [yoloV3 pretrained network](https://pjreddie.com/darknet/yolo/), since current version of WCW bot uses it as a main image recognizer. Please, downoad and put in a main directory the following 3 files: *yolov3.cfg, yolov3.txt, yolov3.weights*.
