@@ -61,7 +61,12 @@ while True:
                 pic = modules['downloader'][source_cfg['module']].get(cfg['sources'][source_cfg['source']],parameters=source_cfg.get('parameters',None))
                 sources_cache[source_cfg['source']] = (time.time(), pic)
                 logging.debug('Caching a pic for source "%s". Timeout in %d.',source_cfg['source'],cache_timeout)
-            if pic: fetched_pics.append( (_load_image_into_numpy_array(pic),source_cfg['source']) )
+            if pic: 
+                try:
+                    np_pic = _load_image_into_numpy_array(pic)
+                    fetched_pics.append( (np_pic,source_cfg['source']) )
+                except:
+                    pass
         logging.info('Fetched total %d pics.',len(fetched_pics))
 
         tagged_pics = []
