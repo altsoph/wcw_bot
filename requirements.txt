@@ -1,0 +1,5 @@
+numpy
+yaml
+pillow
+opencv
+python-telegram-bot
