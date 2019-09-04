@@ -29,12 +29,6 @@ general:
     cat: [50,125,100]
 
 sources:
-  dbg_source:
-    id: dbg_source
-    cache_time: -1
-    substitutions:
-      title: dbg source
-      browser_url: not_available
   wildpark_Baerencam:
     id: wildpark_Baerencam
     url: http://77.47.7.50:8789/record/current.jpg
@@ -193,6 +187,104 @@ sources:
     cache_time: 1
     substitutions:
       title: "Головная камера теплохода Сергей Образцов"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Anastasiya:
+    id: boathead_Anastasiya
+    url: ftp://91.221.70.156/MTF/Anastasiya/online/online.jpg
+    cache_time: 100
+    substitutions:
+      title: "Головная камера теплохода Княжна Анастасия"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Bulgakov:
+    id: boathead_Bulgakov
+    url: ftp://91.221.70.156/MTF/Bulgakov/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Михаил Булгаков"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Bunin:
+    id: boathead_Bunin
+    url: ftp://91.221.70.156/MTF/Bunin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Иван Бунин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Esenin:
+    id: boathead_Esenin
+    url: ftp://91.221.70.156/MTF/Esenin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Сергей Есенин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Grin:
+    id: boathead_Grin
+    url: ftp://91.221.70.156/MTF/Grin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Александр Грин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Karamzin:
+    id: boathead_Karamzin
+    url: ftp://91.221.70.156/MTF/Karamzin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Николая Карамзин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Krasin:
+    id: boathead_Krasin
+    url: ftp://91.221.70.156/MTF/Krasin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Леонид Красин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Krilov:
+    id: boathead_Krilov
+    url: ftp://91.221.70.156/MTF/Krilov/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода И.А.Крылов"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Pushkin:
+    id: boathead_Pushkin
+    url: ftp://91.221.70.156/MTF/Pushkin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода А.С.Пушкин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Repin:
+    id: boathead_Repin
+    url: ftp://91.221.70.156/MTF/Repin/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Илья Репин"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Rossiya:
+    id: boathead_Rossiya
+    url: ftp://91.221.70.156/MTF/Rossiya/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Россия"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Rublev:
+    id: boathead_Rublev
+    url: ftp://91.221.70.156/MTF/Rublev/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Андрей Рублёв"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Surikov:
+    id: boathead_Surikov
+    url: ftp://91.221.70.156/MTF/Surikov/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Василий Суриков"
+      browser_url: https://www.mosturflot.ru/ships/shipsonline
+  boathead_Viktoriya:
+    id: boathead_Viktoriya
+    url: ftp://91.221.70.156/MTF/Viktoriya/online/online.jpg
+    cache_time: 1
+    substitutions:
+      title: "Головная камера теплохода Княжна Виктория"
       browser_url: https://www.mosturflot.ru/ships/shipsonline
 
 targets:
@@ -368,7 +460,77 @@ chains:
         module: mod_simpledownloader
         source: boathead_obrazcov
         parameters:
-          check_period: 300
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Anastasiya
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Bulgakov
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Bunin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Esenin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Grin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Karamzin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Krasin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Krilov
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Pushkin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Repin
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Rossiya
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Rublev
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Surikov
+        parameters:
+          check_period: 1800
+      - 
+        module: mod_simpledownloader
+        source: boathead_Viktoriya
+        parameters:
+          check_period: 1800
     detector: mod_yolo3detector
     filters:
       -
@@ -377,7 +539,21 @@ chains:
         module: mod_sizefilter
         parameters:
           suppress_list:
-            - ['boathead_obrazcov',[680000,-1],['some','boat','airplane']] # boathead_obrazcov
+            - ['boathead_obrazcov',   [680000,-1],['some','boat','airplane']] # boathead_obrazcov
+            - ['boathead_Anastasiya', [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Bulgakov',   [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Bunin',      [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Esenin',     [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Grin',       [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Karamzin',   [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Krasin',     [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Krilov',     [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Pushkin',    [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Repin',      [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Rossiya',    [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Rublev',     [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Surikov',    [680000,-1],['some','boat','airplane']] # 
+            - ['boathead_Viktoriya',  [680000,-1],['some','boat','airplane']] # 
       -
         module: mod_tagfilter
         # parameters: {}
@@ -385,12 +561,26 @@ chains:
         module: mod_manualfilter
         parameters:
           suppress_list:
-            - ['boathead_obrazcov',[55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_obrazcov',   [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Anastasiya', [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Bulgakov',   [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Bunin',      [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Esenin',     [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Grin',       [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Karamzin',   [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Krasin',     [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Krilov',     [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Pushkin',    [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Repin',      [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Rossiya',    [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Rublev',     [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Surikov',    [55,690,1850,1100],['some','boat','chair']]
+            - ['boathead_Viktoriya',  [55,690,1850,1100],['some','boat','chair']]
       -
         module: mod_repeatfilter
         parameters:
           storage: boathead
-          suppress_period: 300
+          suppress_period: 3600
     enhancers:
       -
         module: mod_boxerenhancer
