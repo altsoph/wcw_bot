@@ -196,8 +196,8 @@ sources:
       browser_url: https://www.mosturflot.ru/ships/shipsonline
 
 targets:
-  tg_webcamwatcher:
-    id: "@WebCamWatcher"
+  baimuratov_bot_group:
+    id: "@baimuratov_bot_group"
     template: "Detected: %TAGS% at [%title%](%browser_url%)"
   tg_wcw_boats:
     id: "@wcw_boats"
@@ -277,7 +277,7 @@ chains:
       - 
         sender_module: mod_tgsender
         annotator_module: mod_templateannotator
-        target: tg_webcamwatcher
+        target: baimuratov_bot_group
         parameters: {}
       - 
         sender_module: mod_saversender
@@ -356,7 +356,7 @@ chains:
       - 
         sender_module: mod_tgsender
         annotator_module: mod_templateannotator
-        target: tg_wcw_boats
+        target: baimuratov_bot_group
       - 
         sender_module: mod_saversender
         annotator_module: mod_templateannotator
@@ -398,7 +398,7 @@ chains:
       - 
         sender_module: mod_tgsender
         annotator_module: mod_templateannotator
-        target: tg_wcw_caryatid
+        target: baimuratov_bot_group
         parameters: {}
       - 
         sender_module: mod_saversender

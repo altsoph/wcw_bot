@@ -1,5 +1,6 @@
 numpy
-yaml
+pyyaml
 pillow
-opencv
+opencv-python
+opencv-contrib-python
 python-telegram-bot
