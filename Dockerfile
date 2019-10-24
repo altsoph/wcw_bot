@@ -36,6 +36,7 @@ WORKDIR /app
 ADD . /app
 
 # Using pip:
+RUN python3 -m pip install wheel
 RUN python3 -m pip install -r requirements.txt
 RUN sh download_yolo.sh
 CMD ["python3", "camera_bot.py"]
