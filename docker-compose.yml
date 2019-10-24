@@ -6,3 +6,16 @@ services:
     build: .
     ports:
       - 3000:3000
+    volumes:
+      - type: bind
+        source: ./config.yaml
+        target: /app/config.yaml
+      - type: bind
+        source: ./dbg
+        target: /app/dbg
+      - type: bind
+        source: ./debug.log
+        target: /app/debug.log
+
+
+      

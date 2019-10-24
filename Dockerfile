@@ -3,7 +3,7 @@
 # OS Support also exists for jessie & stretch (slim and full).
 # See https://hub.docker.com/r/library/python/ for all supported Python
 # tags from Docker Hub.
-FROM python:3.7.4-buster
+FROM gaiar/docker-python3-opencv:4.1.2
 
 # If you prefer miniconda:
 #FROM continuumio/miniconda3
