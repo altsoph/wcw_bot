@@ -1,6 +1,5 @@
+wheel
 numpy
 pyyaml
 pillow
-opencv-python
-opencv-contrib-python
 python-telegram-bot
