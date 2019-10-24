@@ -11,8 +11,8 @@ services:
         source: ./config.yaml
         target: /app/config.yaml
       - type: bind
-        source: ./dbg
-        target: /app/dbg
+        source: ./dbg_detected
+        target: /app/dbg_detected
       - type: bind
         source: ./debug.log
         target: /app/debug.log
