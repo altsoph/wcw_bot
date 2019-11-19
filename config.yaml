@@ -288,8 +288,11 @@ sources:
       browser_url: https://www.mosturflot.ru/ships/shipsonline
 
 targets:
-  baimuratov_bot_group:
-    id: "@baimuratov_bot_group"
+  tg_alt_debug:
+    id: "@altsoph"
+    template: "Detected: %TAGS% at [%title%](%browser_url%)"
+  tg_webcamwatcher:
+    id: "@WebCamWatcher"
     template: "Detected: %TAGS% at [%title%](%browser_url%)"
   tg_wcw_boats:
     id: "@wcw_boats"
