@@ -1,0 +1,6 @@
+.vscode/settings.json
+*.pyc
+secrets.yaml
+debug.log
+yolov3.*
+

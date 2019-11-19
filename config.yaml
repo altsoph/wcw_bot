@@ -372,7 +372,7 @@ chains:
       - 
         sender_module: mod_tgsender
         annotator_module: mod_templateannotator
-        target: tg_webcamwatcher
+        target: baimuratov_bot_group
         parameters: {}
       - 
         sender_module: mod_saversender
@@ -451,7 +451,7 @@ chains:
       - 
         sender_module: mod_tgsender
         annotator_module: mod_templateannotator
-        target: tg_wcw_boats
+        target: baimuratov_bot_group
       - 
         sender_module: mod_saversender
         annotator_module: mod_templateannotator
@@ -591,7 +591,7 @@ chains:
       - 
         sender_module: mod_tgsender
         annotator_module: mod_templateannotator
-        target: tg_wcw_caryatid
+        target: baimuratov_bot_group
         parameters: {}
       - 
         sender_module: mod_saversender

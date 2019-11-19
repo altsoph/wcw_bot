@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  wcw_bot:
+    image: wcw_bot
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ./config.yaml
+        target: /app/config.yaml
+      - type: bind
+        source: ./dbg_detected
+        target: /app/dbg_detected
+      - type: bind
+        source: ./debug.log
+        target: /app/debug.log
+      

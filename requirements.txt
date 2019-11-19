@@ -1,0 +1,5 @@
+wheel
+numpy
+pyyaml
+pillow
+python-telegram-bot
