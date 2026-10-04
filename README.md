@@ -25,7 +25,11 @@ To run WCW bot one needs **python3** with several additional libraries:
   
 *Note, the list of requirements depends on used modules, so it could be shorter or longer in a concrete case.*
 
-Finally, to run it one will need a [yoloV3 pretrained network](https://pjreddie.com/darknet/yolo/), since current version of WCW bot uses it as a main image recognizer. Please, downoad and put in a main directory the following 3 files: *yolov3.cfg, yolov3.txt, yolov3.weights*.
+The checked-in config uses YOLOv3. Run `sh download_yolo.sh yolov3` to fetch its weights, config, and class names. To select `mod_yolo4detector` in a chain, run `sh download_yolo.sh yolov4` as well. The runner loads only modules referenced by active chains, so unused detectors do not require their weights.
+
+The HTML and HLS screenshot downloaders use Selenium 4 and headless Firefox. Install Firefox and let Selenium Manager provide geckodriver, or use the Docker image, which installs Firefox and downloads geckodriver during its build. The HLS player uses a local, pinned hls.js bundle; its license is in `HLS_JS_LICENSE.txt`. Browser captures need network access to the configured stream or page.
+
+For Docker builds, `YOLO_MODEL` defaults to `yolov3`. Set `--build-arg YOLO_MODEL=yolov4` when the deployed config uses YOLOv4. Docker Compose mounts `config.yaml` and `secrets.yaml` from the host; keep the latter out of published images.
 
 ## General structure
 
@@ -129,6 +133,11 @@ Here is a list of already available modules divided by classes:
      * mod_simpledownloader.py -- a main downloader, gets an image from URL given in a source config (use #random# in URL to put a random substring for cache breaking, use *random_len* parameter in a source config to specify the length of a random substring).
      * mod_fakedownloader.py -- a debug downloader, gets a random image from *raw_tests/* subfolder.
      * mod_speclaplanddownloader.py -- an example of a more complicated downloader, it gets some json first then uses it to construct an image URL, then gets an image from the constructed URL.
+     * mod_htmlscreenshotdownloader.py -- captures a rendered page with headless Firefox after `waiting_time` seconds.
+     * mod_m3u8screenshotdownloader.py -- plays an HLS stream in the local player and captures a frame after video data arrives.
+   * detectors
+     * mod_yolo3detector.py -- the existing YOLOv3 detector.
+     * mod_yolo4detector.py -- an optional YOLOv4 detector using 608×608 input.
    * filters
      * mod_conffilter.py -- filters out tags with a confidence less than *min_confidence* value (this threshold value can be specified in general / source / filter parameters).
      * mod_tagfilter.py -- filters out tags by a list, calculated based on *ignore_tags* from general parameters plus *replace_ignore_tags* and *add_ignore_tags* from source and filter parameters.

@@ -1,34 +1,27 @@
 import sys
-import importlib
 import yaml
 import logging
 import time
 import numpy as np
 
-from glob import glob
-from collections import defaultdict
+from module_loader import load_modules
 
 # loggin 
 
 # logging.basicConfig(format='%(asctime)s:%(levelname)s: %(message)s', datefmt='%Y%m%d_%H%M%S', handlers=[logging.StreamHandler(sys.stdout)], level=logging.INFO)
-logging.basicConfig(format='%(asctime)s:%(levelname)s: %(message)s', datefmt='%Y%m%d_%H%M%S', filename='debug.log', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s:%(levelname)s: %(message)s', datefmt='%Y%m%d_%H%M%S', handlers=[logging.StreamHandler(sys.stdout)], level=logging.DEBUG)
 logging.debug('Logging started')
 
 
 # load config
 
-cfg = yaml.load(open('config.yaml', encoding='utf-8')) # , Loader=yaml.FullLoader)
-cfg['secrets'] = yaml.load(open('secrets.yaml', encoding='utf-8')) #, Loader=yaml.FullLoader)
+with open('config.yaml', encoding='utf-8') as config_file:
+    cfg = yaml.safe_load(config_file)
+with open('secrets.yaml', encoding='utf-8') as secrets_file:
+    cfg['secrets'] = yaml.safe_load(secrets_file)
 logging.debug('Config loaded')
 
-# discover and install available modules
-
-modules = defaultdict(dict)
-for mod_type in ('downloader','detector','filter','annotator','enhancer','sender'):
-    sys.path.append(cfg['general']['modules_dir'][mod_type])
-    for module in glob(cfg['general']['modules_dir'][mod_type]+'mod_*'):
-        module_fn = module.replace('\\','/').split('/')[-1].replace('.py','')
-        modules[mod_type][module_fn] = importlib.import_module(module_fn).instance(cfg)
+modules = load_modules(cfg)
 logging.debug('Modules loaded')
 
 def _load_image_into_numpy_array(image):
@@ -106,4 +99,3 @@ while True:
     time.sleep(cfg['general'].get('iteration_time',60*5))
 
 exit()
-
