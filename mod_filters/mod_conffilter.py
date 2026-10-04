@@ -1,5 +1,6 @@
 import logging
 import cv2
+import numpy as np
 from proto_filter import * 
 
 class instance(proto_filter):
@@ -20,9 +21,10 @@ class instance(proto_filter):
 
         indices = cv2.dnn.NMSBoxes(boxes, confidences, min_confidence, nms_threshold)
         res = []
-        for idx in indices:
-            idx = idx[0]
+        for idx in ([] if indices is None else indices):
+            # OpenCV has returned both flat and nested indexes across versions.
+            idx = int(np.asarray(idx).item())
             res.append( [tags[idx],confidences[idx],boxes[idx]] )
-        res = list(zip(*res))
+        res = list(zip(*res)) if res else ([], [], [])
         logging.info('Module "%s": found tags %s.', __name__, str(res))
         return res        

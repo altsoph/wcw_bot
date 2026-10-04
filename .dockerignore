@@ -11,3 +11,10 @@ docker-compose*
 README.md
 LICENSE
 .vscode
+secrets.yaml
+debug.log*
+config.yaml.*
+*.bak
+viewport-*.png
+__pycache__
+*.pyc
