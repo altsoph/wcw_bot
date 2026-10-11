@@ -22,6 +22,7 @@ import mod_htmlscreenshotdownloader
 import mod_m3u8screenshotdownloader
 import mod_simpledownloader
 import mod_yolo4detector
+import youtube_capture
 from module_loader import load_modules
 
 
@@ -83,6 +84,23 @@ class OpenCvCompatibilityTests(unittest.TestCase):
 
 
 class BrowserCaptureTests(unittest.TestCase):
+    def test_youtube_wrapper_uses_stream_capture(self):
+        source = {
+            'url': 'https://jeffreyca.github.io/yt-embed-wrapper/embed.html?v=i12eS_2YV-s&autoplay=1',
+            'capture_timeout': 45,
+        }
+        with mock.patch.object(mod_htmlscreenshotdownloader, 'capture_page') as browser, \
+             mock.patch.object(mod_htmlscreenshotdownloader, 'capture_youtube_wrapper') as stream:
+            mod_htmlscreenshotdownloader.instance({}).get(source)
+        browser.assert_not_called()
+        stream.assert_called_once_with(source['url'], timeout=45)
+
+    def test_youtube_wrapper_parses_both_correct_and_old_urls(self):
+        root = 'https://jeffreyca.github.io/yt-embed-wrapper/embed.html?v=i12eS_2YV-s'
+        self.assertEqual(youtube_capture.get_video_id(root + '&autoplay=1'), 'i12eS_2YV-s')
+        self.assertEqual(youtube_capture.get_video_id(root + '?autoplay=1'), 'i12eS_2YV-s')
+        self.assertIsNone(youtube_capture.get_video_id('https://example.com/?v=i12eS_2YV-s'))
+
     def test_html_source_can_skip_page_load_wait_for_live_embed(self):
         source = {
             'url': 'https://example.com/live/embed.html',

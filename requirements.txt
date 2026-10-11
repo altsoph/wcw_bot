@@ -4,3 +4,4 @@ pyyaml
 pillow>=8.0.0
 python-telegram-bot~=13.0
 selenium>=4.30,<5
+yt-dlp>=2026.8.19

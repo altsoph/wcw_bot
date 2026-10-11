@@ -5,6 +5,7 @@ import string
 
 from browser_capture import capture_page
 from proto_downloader import proto_downloader
+from youtube_capture import capture_youtube_wrapper, is_youtube_wrapper
 
 
 class instance(proto_downloader):
@@ -12,6 +13,11 @@ class instance(proto_downloader):
         parameters = parameters or {}
         random_part = ''.join(random.choices(string.digits, k=source.get('random_len', 13)))
         url = source['url'].replace('#random#', random_part)
+        if is_youtube_wrapper(url):
+            return capture_youtube_wrapper(
+                url,
+                timeout=parameters.get('capture_timeout', source.get('capture_timeout', 60)),
+            )
         return capture_page(
             url,
             wait_seconds=parameters.get('waiting_time', source.get('waiting_time', 7)),

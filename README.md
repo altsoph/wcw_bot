@@ -133,7 +133,7 @@ Here is a list of already available modules divided by classes:
      * mod_simpledownloader.py -- a main downloader, gets an image from URL given in a source config (use #random# in URL to put a random substring for cache breaking, use *random_len* parameter in a source config to specify the length of a random substring).
      * mod_fakedownloader.py -- a debug downloader, gets a random image from *raw_tests/* subfolder.
      * mod_speclaplanddownloader.py -- an example of a more complicated downloader, it gets some json first then uses it to construct an image URL, then gets an image from the constructed URL.
-     * mod_htmlscreenshotdownloader.py -- captures a rendered page with headless Firefox after `waiting_time` seconds.
+     * mod_htmlscreenshotdownloader.py -- captures a rendered page with headless Firefox after `waiting_time` seconds. YouTube wrapper URLs use yt-dlp and OpenCV to decode a live stream frame without Firefox; `capture_timeout` limits each attempt (60 seconds by default). This also accepts the older malformed `?autoplay` wrapper URLs while configs are being repaired.
      * mod_m3u8screenshotdownloader.py -- plays an HLS stream in the local player and captures a frame after video data arrives.
    * detectors
      * mod_yolo3detector.py -- the existing YOLOv3 detector.
