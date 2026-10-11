@@ -1,0 +1,33 @@
+# Standalone browser-capture probe data.
+# Read this file with mod_htmlscreenshotdownloader; do not run camera_bot.py with it.
+sources:
+  boat_dk_202610_1:
+    id: boat_dk_202610_1
+    url: https://cam.a-telecom.ru/Zhigansk/embed.html?autoplay=true
+    waiting_time: 10
+    page_load_strategy: none
+    page_load_timeout: 20
+  boat_dk_202610_2:
+    id: boat_dk_202610_2
+    url: https://cam.a-telecom.ru/Sangary_Yug/embed.html?autoplay=true
+    waiting_time: 10
+    page_load_strategy: none
+    page_load_timeout: 20
+  boat_dk_202610_3:
+    id: boat_dk_202610_3
+    url: https://cam.a-telecom.ru/Pokrovsk_Naberejnaya/embed.html?autoplay=true
+    waiting_time: 10
+    page_load_strategy: none
+    page_load_timeout: 20
+  boat_dk_202610_4:
+    id: boat_dk_202610_4
+    url: https://cam.a-telecom.ru/Bestyah/embed.html?autoplay=true
+    waiting_time: 10
+    page_load_strategy: none
+    page_load_timeout: 20
+  boat_dk_202610_5:
+    id: boat_dk_202610_5
+    url: https://cam.a-telecom.ru/Lensk2/embed.html?autoplay=true
+    waiting_time: 10
+    page_load_strategy: none
+    page_load_timeout: 20
