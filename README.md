@@ -135,6 +135,8 @@ Here is a list of already available modules divided by classes:
      * mod_speclaplanddownloader.py -- an example of a more complicated downloader, it gets some json first then uses it to construct an image URL, then gets an image from the constructed URL.
      * mod_htmlscreenshotdownloader.py -- captures a rendered page with headless Firefox after `waiting_time` seconds. YouTube wrapper URLs use yt-dlp and OpenCV to decode a live stream frame without Firefox; `capture_timeout` limits each attempt (60 seconds by default). This also accepts the older malformed `?autoplay` wrapper URLs while configs are being repaired.
      * mod_m3u8screenshotdownloader.py -- plays an HLS stream in the local player and captures a frame after video data arrives.
+
+For YouTube hosts that require sign-in, the live-frame downloader accepts a private Netscape-format cookie file through `WCW_YOUTUBE_COOKIES`. Mount it read-only into the container and set the variable to its container path. Keep the file out of Git and do not put its contents in `config.yaml`. YouTube may still reject authenticated requests from a particular server IP.
    * detectors
      * mod_yolo3detector.py -- the existing YOLOv3 detector.
      * mod_yolo4detector.py -- an optional YOLOv4 detector using 608×608 input.

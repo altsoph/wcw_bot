@@ -1,6 +1,7 @@
 .vscode/settings.json
 *.pyc
 secrets.yaml
+youtube_cookies.txt
 debug.log
 yolov3.*
 

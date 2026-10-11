@@ -2,6 +2,7 @@
 
 import io
 import logging
+import os
 import re
 import subprocess
 import sys
@@ -62,12 +63,18 @@ def _capture_frame(video_id):
     import yt_dlp
 
     page_url = 'https://www.youtube.com/watch?v=' + video_id
-    with yt_dlp.YoutubeDL({
+    options = {
         'quiet': True,
         'no_warnings': True,
         'noplaylist': True,
         'format': 'bestvideo[protocol^=m3u8]/bestvideo',
-    }) as youtube:
+    }
+    cookiefile = os.environ.get('WCW_YOUTUBE_COOKIES')
+    if cookiefile:
+        if not Path(cookiefile).is_file():
+            raise FileNotFoundError('WCW_YOUTUBE_COOKIES file does not exist')
+        options['cookiefile'] = cookiefile
+    with yt_dlp.YoutubeDL(options) as youtube:
         info = youtube.extract_info(page_url, download=False)
     if info.get('live_status') != 'is_live':
         raise RuntimeError('Video is not currently live')

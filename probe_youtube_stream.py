@@ -1,6 +1,7 @@
 """Probe a YouTube live stream without a browser, then save one decoded frame."""
 
 import argparse
+import os
 import re
 import time
 from pathlib import Path
@@ -20,12 +21,19 @@ def main():
     page_url = 'https://www.youtube.com/watch?v=' + args.video_id
     print('Extracting:', page_url, flush=True)
     started = time.monotonic()
-    with yt_dlp.YoutubeDL({
+    options = {
         'quiet': True,
         'no_warnings': True,
         'noplaylist': True,
         'format': 'bestvideo[protocol^=m3u8]/bestvideo',
-    }) as youtube:
+    }
+    cookiefile = os.environ.get('WCW_YOUTUBE_COOKIES')
+    if cookiefile:
+        if not Path(cookiefile).is_file():
+            raise FileNotFoundError('WCW_YOUTUBE_COOKIES file does not exist')
+        options['cookiefile'] = cookiefile
+        print('Cookie file: configured', flush=True)
+    with yt_dlp.YoutubeDL(options) as youtube:
         info = youtube.extract_info(page_url, download=False)
     print('Video:', info.get('title'), flush=True)
     print('Status:', info.get('live_status'), flush=True)
