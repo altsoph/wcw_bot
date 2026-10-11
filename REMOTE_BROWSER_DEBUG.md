@@ -30,7 +30,7 @@ git fetch https://github.com/altsoph/wcw_bot.git upstream/browser-yolo4-refresh
 git worktree add ../wcw_bot-browser-fix FETCH_HEAD
 cd ../wcw_bot-browser-fix
 mkdir -p dbg_detected
-docker build --progress=plain -t wcw-bot-browser-probe --build-arg YOLO_MODEL=yolov4 .
+docker build --progress=plain -t wcw-bot-browser-probe --build-arg YOLO_MODEL=none .
 ```
 
 The build alone does not replace the running bot. The Dockerfile uses Selenium Manager to cache Firefox and resolve geckodriver at build time, without an additional apt repository. The new downloader uses `eager` page loading and a 30-second page timeout by default.

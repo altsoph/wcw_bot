@@ -29,7 +29,7 @@ The checked-in config uses YOLOv3. Run `sh download_yolo.sh yolov3` to fetch its
 
 The HTML and HLS screenshot downloaders use Selenium 4 and headless Firefox. Install Firefox and let Selenium Manager provide geckodriver, or use the Docker image, which installs Firefox and downloads geckodriver during its build. The HLS player uses a local, pinned hls.js bundle; its license is in `HLS_JS_LICENSE.txt`. Browser captures need network access to the configured stream or page.
 
-For Docker builds, `YOLO_MODEL` defaults to `yolov3`. Set `--build-arg YOLO_MODEL=yolov4` when the deployed config uses YOLOv4. Docker Compose mounts `config.yaml` and `secrets.yaml` from the host; keep the latter out of published images.
+For Docker builds, `YOLO_MODEL` defaults to `yolov3`. Set `--build-arg YOLO_MODEL=yolov4` when the deployed config uses YOLOv4. For a browser-only probe, use `--build-arg YOLO_MODEL=none`; the probe image has no detector weights and must not run the bot pipeline. Docker Compose mounts `config.yaml` and `secrets.yaml` from the host; keep the latter out of published images.
 
 ## General structure
 
