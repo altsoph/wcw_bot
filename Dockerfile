@@ -1,25 +1,14 @@
 FROM gaiar/docker-python3-opencv:jammy-4.8.1
 
-ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /app
-
-# Ubuntu Jammy distributes Firefox as a snap. Use Mozilla's signed deb repo
-# so headless Firefox works inside the container.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates wget gnupg \
-    && install -d -m 0755 /etc/apt/keyrings \
-    && wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O /etc/apt/keyrings/packages.mozilla.org.asc \
-    && printf 'deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main\n' > /etc/apt/sources.list.d/mozilla.list \
-    && printf 'Package: firefox\nPin: origin packages.mozilla.org\nPin-Priority: 1000\n' > /etc/apt/preferences.d/mozilla \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends firefox \
-    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-# The base image can contain an older geckodriver in PATH. Let Selenium Manager
-# resolve a driver for the Firefox installed above, during the build.
+# The base image can contain an older geckodriver and a nonworking Firefox
+# launcher. Selenium Manager downloads and caches a compatible browser and
+# driver, as it already did in the running deployment.
+ENV SE_SKIP_BROWSER_IN_PATH=true
 RUN if [ -x /usr/local/bin/geckodriver ]; then mv /usr/local/bin/geckodriver /usr/local/bin/geckodriver.base; fi \
     && python3 -c "from selenium.webdriver.common.selenium_manager import SeleniumManager; SeleniumManager().binary_paths(['--browser', 'firefox'])"
 

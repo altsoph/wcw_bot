@@ -21,29 +21,21 @@ docker exec wcw_bot-wcw_bot-1 python3 -c "import urllib.request; r=urllib.reques
 
 An HTTP failure or timeout here points to source availability or container networking. An HTTP success does not prove that the live video plays.
 
-## 2. Restore progress while investigating
+## 2. Build an isolated probe image
 
-In the host `config.yaml`, comment out the `boat_dk_202610_1` item under `chains.boatbot.sources` (keep its definition in `sources`), then restart the service so it rereads the config:
-
-```sh
-docker compose -p wcw_bot restart wcw_bot
-docker logs --since 5m wcw_bot-wcw_bot-1
-```
-
-If the other A-Telecom embeds stall in the same way, temporarily comment out their chain items too. This is a temporary operational step; it does not delete their source definitions.
-
-## 3. Deploy the current code
-
-Use a clean checkout of the `upstream/browser-yolo4-refresh` branch containing the browser fix. Preserve the host's current `config.yaml` and `secrets.yaml` by copying them into the new checkout, or keep equivalent bind mounts. Do not replace the host config with the repository's example config. In the checkout:
+The deployed host has a custom Compose file using `gaiar/wcw_bot`, a local port mapping, and its own mounts. Leave it and the running container untouched while testing. From the host's current Git checkout, fetch the repair branch into a separate worktree:
 
 ```sh
+git fetch https://github.com/altsoph/wcw_bot.git upstream/browser-yolo4-refresh
+git worktree add ../wcw_bot-browser-fix FETCH_HEAD
+cd ../wcw_bot-browser-fix
 mkdir -p dbg_detected
-docker compose -p wcw_bot build --build-arg YOLO_MODEL=yolov4 wcw_bot
+docker build --progress=plain -t wcw-bot-browser-probe --build-arg YOLO_MODEL=yolov4 .
 ```
 
-The build alone does not replace the running bot. The new Dockerfile installs Firefox and resolves geckodriver at build time. The new downloader uses `eager` page loading and a 30-second page timeout by default.
+The build alone does not replace the running bot. The Dockerfile uses Selenium Manager to cache Firefox and resolve geckodriver at build time, without an additional apt repository. The new downloader uses `eager` page loading and a 30-second page timeout by default.
 
-For A-Telecom sources that still hang, add these source-level settings to each of `boat_dk_202610_1` through `boat_dk_202610_5` in the host config, as shown in the local `config.v2.yaml`:
+For A-Telecom sources, the separate `config.probe.yaml` already includes these settings:
 
 ```yaml
     page_load_strategy: none
@@ -52,23 +44,14 @@ For A-Telecom sources that still hang, add these source-level settings to each o
 
 `none` tells WebDriver to return from navigation without waiting for the page's load event. The downloader then waits the configured `waiting_time` before taking a screenshot. Check the resulting image; a returned screenshot can still show a loading page rather than a video frame.
 
-## 4. Test one source without running the bot pipeline
+## 3. Test one source without running the bot pipeline
 
-Run this in the new checkout before replacing the running bot or enabling the source in `chains.boatbot.sources` again:
-
-```sh
-docker compose -p wcw_bot run --rm --no-deps wcw_bot timeout 70s python3 -c "import sys,yaml; sys.path.insert(0,'/app/mod_downloaders'); from mod_htmlscreenshotdownloader import instance; s=yaml.safe_load(open('/app/config.yaml'))['sources']['boat_dk_202610_1']; im=instance({}).get(s); print('image_size=', im.size if im else None); im and im.save('/app/dbg_detected/zhigansk_probe.jpg')"
-```
-
-Open `dbg_detected/zhigansk_probe.jpg` on the host. If it shows real video and the command finishes promptly, re-enable the chain item and restart. If the command times out, leave that camera disabled and collect the full error plus the endpoint check result. If it saves a blank/loading screen, the page needs a video-readiness check or a direct stream URL instead of a timed page screenshot.
-
-After the probe, deploy the rebuilt image from the new checkout:
+Run this in the new checkout before replacing the running bot. It invokes one downloader, without reading the production config or running the Telegram pipeline:
 
 ```sh
-docker compose -p wcw_bot up -d --no-deps --force-recreate wcw_bot
-docker logs --since 5m wcw_bot-wcw_bot-1
+docker run --rm -v "$PWD/dbg_detected:/app/dbg_detected" wcw-bot-browser-probe timeout 70s python3 -c "import sys,yaml; sys.path.insert(0,'/app/mod_downloaders'); from mod_htmlscreenshotdownloader import instance; s=yaml.safe_load(open('/app/config.probe.yaml'))['sources']['boat_dk_202610_1']; im=instance({}).get(s); print('image_size=', im.size if im else None); im and im.save('/app/dbg_detected/zhigansk_probe.jpg')"
 ```
 
-The project name `wcw_bot` matches the existing container name, so Compose recreates that service instead of starting a second posting bot.
+Open `dbg_detected/zhigansk_probe.jpg` on the host. If it saves a blank/loading screen, the page needs a video-readiness check or a direct stream URL instead of a timed page screenshot. Deployment should preserve the host's custom Compose file and current `config.yaml`.
 
 The local automated tests check the new page-load option and timeout wiring. A full Docker build and live Firefox capture could not be run in the local workspace because no Docker engine is available there.
