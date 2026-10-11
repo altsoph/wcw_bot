@@ -18,8 +18,10 @@ RUN apt-get update \
 COPY requirements.txt /app/requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-# Download geckodriver during the build, rather than on first capture.
-RUN python3 -c "from selenium.webdriver.common.selenium_manager import SeleniumManager; SeleniumManager().binary_paths(['--browser', 'firefox'])"
+# The base image can contain an older geckodriver in PATH. Let Selenium Manager
+# resolve a driver for the Firefox installed above, during the build.
+RUN if [ -x /usr/local/bin/geckodriver ]; then mv /usr/local/bin/geckodriver /usr/local/bin/geckodriver.base; fi \
+    && python3 -c "from selenium.webdriver.common.selenium_manager import SeleniumManager; SeleniumManager().binary_paths(['--browser', 'firefox'])"
 
 COPY . /app
 ARG YOLO_MODEL=yolov3

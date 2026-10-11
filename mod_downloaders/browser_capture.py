@@ -7,16 +7,20 @@ import time
 from PIL import Image
 
 
-def capture_page(url, wait_seconds=7, page_load_timeout=30, wait_for_video=False):
+def capture_page(url, wait_seconds=7, page_load_timeout=30, wait_for_video=False,
+                 page_load_strategy='eager'):
     """Return a page screenshot as an RGB PIL image, or None on failure."""
     try:
         # Import on use so still-image chains do not require Selenium at startup.
         from selenium import webdriver
         from selenium.webdriver.support.ui import WebDriverWait
 
+        if page_load_strategy not in {'normal', 'eager', 'none'}:
+            raise ValueError('Unsupported page load strategy: %s' % page_load_strategy)
+
         options = webdriver.FirefoxOptions()
         options.add_argument('-headless')
-        options.page_load_strategy = 'eager'
+        options.page_load_strategy = page_load_strategy
         options.set_preference('media.autoplay.default', 0)
         options.set_preference('media.volume_scale', '0.0')
         options.set_preference('dom.webnotifications.enabled', False)

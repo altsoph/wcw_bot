@@ -17,6 +17,7 @@ for directory in ('mod_downloaders', 'mod_detectors', 'mod_filters'):
 
 import browser_capture
 import mod_conffilter
+import mod_htmlscreenshotdownloader
 import mod_m3u8screenshotdownloader
 import mod_yolo4detector
 from module_loader import load_modules
@@ -80,6 +81,35 @@ class OpenCvCompatibilityTests(unittest.TestCase):
 
 
 class BrowserCaptureTests(unittest.TestCase):
+    def test_html_source_can_skip_page_load_wait_for_live_embed(self):
+        source = {
+            'url': 'https://example.com/live/embed.html',
+            'page_load_strategy': 'none',
+            'page_load_timeout': 20,
+        }
+        with mock.patch.object(mod_htmlscreenshotdownloader, 'capture_page') as capture:
+            mod_htmlscreenshotdownloader.instance({}).get(source)
+        self.assertEqual(capture.call_args.kwargs['page_load_strategy'], 'none')
+        self.assertEqual(capture.call_args.kwargs['page_load_timeout'], 20)
+
+    def test_browser_uses_configured_page_load_strategy_and_timeout(self):
+        screenshot = io.BytesIO()
+        Image.new('RGB', (1, 1)).save(screenshot, 'PNG')
+        driver = mock.MagicMock()
+        driver.__enter__.return_value = driver
+        driver.get_screenshot_as_png.return_value = screenshot.getvalue()
+        with mock.patch('selenium.webdriver.Firefox', return_value=driver), \
+             mock.patch('selenium.webdriver.FirefoxOptions') as options, \
+             mock.patch('browser_capture.time.sleep'):
+            browser_capture.capture_page(
+                'https://example.com/live/embed.html',
+                wait_seconds=0,
+                page_load_timeout=20,
+                page_load_strategy='none',
+            )
+        self.assertEqual(options.return_value.page_load_strategy, 'none')
+        driver.set_page_load_timeout.assert_called_once_with(20)
+
     def test_capture_converts_screenshot_to_rgb(self):
         screenshot = io.BytesIO()
         Image.new('RGBA', (2, 2), (10, 20, 30, 255)).save(screenshot, 'PNG')

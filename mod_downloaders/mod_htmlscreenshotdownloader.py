@@ -16,4 +16,7 @@ class instance(proto_downloader):
             url,
             wait_seconds=parameters.get('waiting_time', source.get('waiting_time', 7)),
             page_load_timeout=parameters.get('page_load_timeout', source.get('page_load_timeout', 30)),
+            page_load_strategy=parameters.get(
+                'page_load_strategy', source.get('page_load_strategy', 'eager')
+            ),
         )
