@@ -39,10 +39,9 @@ Use a clean checkout of the `upstream/browser-yolo4-refresh` branch containing t
 ```sh
 mkdir -p dbg_detected
 docker compose -p wcw_bot build --build-arg YOLO_MODEL=yolov4 wcw_bot
-docker compose -p wcw_bot up -d --no-deps --force-recreate wcw_bot
 ```
 
-The project name `wcw_bot` matches the existing container name, so Compose recreates that service instead of running a second posting bot. The new Dockerfile installs Firefox and resolves geckodriver at build time. The new downloader uses `eager` page loading and a 30-second page timeout by default.
+The build alone does not replace the running bot. The new Dockerfile installs Firefox and resolves geckodriver at build time. The new downloader uses `eager` page loading and a 30-second page timeout by default.
 
 For A-Telecom sources that still hang, add these source-level settings to each of `boat_dk_202610_1` through `boat_dk_202610_5` in the host config, as shown in the local `config.v2.yaml`:
 
@@ -55,12 +54,21 @@ For A-Telecom sources that still hang, add these source-level settings to each o
 
 ## 4. Test one source without running the bot pipeline
 
-Run this in the new checkout before enabling the source in `chains.boatbot.sources` again:
+Run this in the new checkout before replacing the running bot or enabling the source in `chains.boatbot.sources` again:
 
 ```sh
 docker compose -p wcw_bot run --rm --no-deps wcw_bot timeout 70s python3 -c "import sys,yaml; sys.path.insert(0,'/app/mod_downloaders'); from mod_htmlscreenshotdownloader import instance; s=yaml.safe_load(open('/app/config.yaml'))['sources']['boat_dk_202610_1']; im=instance({}).get(s); print('image_size=', im.size if im else None); im and im.save('/app/dbg_detected/zhigansk_probe.jpg')"
 ```
 
 Open `dbg_detected/zhigansk_probe.jpg` on the host. If it shows real video and the command finishes promptly, re-enable the chain item and restart. If the command times out, leave that camera disabled and collect the full error plus the endpoint check result. If it saves a blank/loading screen, the page needs a video-readiness check or a direct stream URL instead of a timed page screenshot.
+
+After the probe, deploy the rebuilt image from the new checkout:
+
+```sh
+docker compose -p wcw_bot up -d --no-deps --force-recreate wcw_bot
+docker logs --since 5m wcw_bot-wcw_bot-1
+```
+
+The project name `wcw_bot` matches the existing container name, so Compose recreates that service instead of starting a second posting bot.
 
 The local automated tests check the new page-load option and timeout wiring. A full Docker build and live Firefox capture could not be run in the local workspace because no Docker engine is available there.
