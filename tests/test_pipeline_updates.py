@@ -16,6 +16,7 @@ for directory in ('mod_downloaders', 'mod_detectors', 'mod_filters'):
     sys.path.insert(0, str(ROOT / directory))
 
 import browser_capture
+import fix_youtube_embed_urls
 import mod_conffilter
 import mod_htmlscreenshotdownloader
 import mod_m3u8screenshotdownloader
@@ -161,6 +162,21 @@ class DirectImageCaptureTests(unittest.TestCase):
             })
         self.assertEqual(image.size, (2, 3))
         self.assertEqual(open_url.call_args.kwargs['timeout'], 12)
+
+
+class YoutubeConfigTests(unittest.TestCase):
+    def test_repairs_only_malformed_wrapper_source_urls(self):
+        original = (
+            b'sources:\n'
+            b'  broken:\n'
+            b'    url: https://jeffreyca.github.io/yt-embed-wrapper/embed.html?v=i12eS_2YV-s?autoplay=1&mute=1\n'
+            b'  valid:\n'
+            b'    url: https://jeffreyca.github.io/yt-embed-wrapper/embed.html?v=u6bcfvalxtA&autoplay=1\n'
+        )
+        repaired, count = fix_youtube_embed_urls.repair(original)
+        self.assertEqual(count, 1)
+        self.assertIn(b'v=i12eS_2YV-s&autoplay=1', repaired)
+        self.assertIn(b'v=u6bcfvalxtA&autoplay=1', repaired)
 
 
 if __name__ == '__main__':
