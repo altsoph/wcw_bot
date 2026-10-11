@@ -74,6 +74,17 @@ def _capture_frame(video_id):
         if not Path(cookiefile).is_file():
             raise FileNotFoundError('WCW_YOUTUBE_COOKIES file does not exist')
         options['cookiefile'] = cookiefile
+    proxy = os.environ.get('WCW_YOUTUBE_PROXY')
+    if proxy:
+        if urlsplit(proxy).scheme != 'http':
+            raise ValueError('WCW_YOUTUBE_PROXY must be an HTTP CONNECT proxy')
+        options['proxy'] = proxy
+        # OpenCV's FFmpeg backend makes separate HLS requests. Route them
+        # through the same exit IP as yt-dlp's stream extraction.
+        os.environ['http_proxy'] = proxy
+        os.environ['HTTP_PROXY'] = proxy
+        os.environ['https_proxy'] = proxy
+        os.environ['HTTPS_PROXY'] = proxy
     with yt_dlp.YoutubeDL(options) as youtube:
         info = youtube.extract_info(page_url, download=False)
     if info.get('live_status') != 'is_live':

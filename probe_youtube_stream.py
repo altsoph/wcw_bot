@@ -5,6 +5,7 @@ import os
 import re
 import time
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import cv2
 import yt_dlp
@@ -33,6 +34,16 @@ def main():
             raise FileNotFoundError('WCW_YOUTUBE_COOKIES file does not exist')
         options['cookiefile'] = cookiefile
         print('Cookie file: configured', flush=True)
+    proxy = os.environ.get('WCW_YOUTUBE_PROXY')
+    if proxy:
+        if urlsplit(proxy).scheme != 'http':
+            raise ValueError('WCW_YOUTUBE_PROXY must be an HTTP CONNECT proxy')
+        options['proxy'] = proxy
+        os.environ['http_proxy'] = proxy
+        os.environ['HTTP_PROXY'] = proxy
+        os.environ['https_proxy'] = proxy
+        os.environ['HTTPS_PROXY'] = proxy
+        print('HTTP proxy: configured', flush=True)
     with yt_dlp.YoutubeDL(options) as youtube:
         info = youtube.extract_info(page_url, download=False)
     print('Video:', info.get('title'), flush=True)

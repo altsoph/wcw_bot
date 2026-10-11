@@ -137,6 +137,8 @@ Here is a list of already available modules divided by classes:
      * mod_m3u8screenshotdownloader.py -- plays an HLS stream in the local player and captures a frame after video data arrives.
 
 For YouTube hosts that require sign-in, the live-frame downloader accepts a private Netscape-format cookie file through `WCW_YOUTUBE_COOKIES`. Mount it read-only into the container and set the variable to its container path. Keep the file out of Git and do not put its contents in `config.yaml`. YouTube may still reject authenticated requests from a particular server IP.
+
+Alternatively, set `WCW_YOUTUBE_PROXY` to an HTTP CONNECT proxy URL. The downloader sends both YouTube extraction and HLS frame requests through that proxy.
    * detectors
      * mod_yolo3detector.py -- the existing YOLOv3 detector.
      * mod_yolo4detector.py -- an optional YOLOv4 detector using 608×608 input.

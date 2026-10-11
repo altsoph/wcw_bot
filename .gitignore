@@ -2,6 +2,7 @@
 *.pyc
 secrets.yaml
 youtube_cookies.txt
+.probe_deps/
 debug.log
 yolov3.*
 
