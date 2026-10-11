@@ -20,6 +20,8 @@ class instance(proto_downloader):
         'Accept-Language' : 'en-US;q=0.9,en;q=0.7'
         }
 
+        parameters = parameters or {}
+        request_timeout = parameters.get('request_timeout', source.get('request_timeout', 20))
         random_len = source.get('random_len',13)
         random_part = ''.join(random.choice(string.digits) for _ in range(random_len))
         url = source['url'].replace('#random#',random_part)
@@ -28,10 +30,10 @@ class instance(proto_downloader):
         req = urllib.request.Request(url, headers=hdr)
         # response = urllib.request.urlopen(source['url'])
         try:
-              response = urllib.request.urlopen(req)
+              response = urllib.request.urlopen(req, timeout=request_timeout)
               data = response.read()  
               image = Image.open(io.BytesIO(data))
               return image
-        except:
-            logging.warning('Module "%s": connection error to url %s.', __name__,url)
+        except Exception as exc:
+            logging.warning('Module "%s": connection error to url %s: %s.', __name__,url,exc)
             return None

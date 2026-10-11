@@ -19,6 +19,7 @@ import browser_capture
 import mod_conffilter
 import mod_htmlscreenshotdownloader
 import mod_m3u8screenshotdownloader
+import mod_simpledownloader
 import mod_yolo4detector
 from module_loader import load_modules
 
@@ -146,6 +147,20 @@ class BrowserCaptureTests(unittest.TestCase):
             image = browser_capture.capture_page('file:///player.html', wait_for_video=True)
         self.assertEqual(image.mode, 'RGB')
         driver.execute_script.assert_called_once()
+
+
+class DirectImageCaptureTests(unittest.TestCase):
+    def test_source_timeout_bounds_preview_fetch(self):
+        jpeg = io.BytesIO()
+        Image.new('RGB', (2, 3)).save(jpeg, 'JPEG')
+        with mock.patch.object(mod_simpledownloader.urllib.request, 'urlopen',
+                               return_value=io.BytesIO(jpeg.getvalue())) as open_url:
+            image = mod_simpledownloader.instance({}).get({
+                'url': 'https://example.com/preview.jpg',
+                'request_timeout': 12,
+            })
+        self.assertEqual(image.size, (2, 3))
+        self.assertEqual(open_url.call_args.kwargs['timeout'], 12)
 
 
 if __name__ == '__main__':
